@@ -14,6 +14,13 @@ import static javax.persistence.FetchType.LAZY;
 @EqualsAndHashCode(of = "id", callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        columnNames = {"account_id", "name"}
+                )
+        }
+)
 public class Keyword {
 
   @Id
@@ -21,6 +28,12 @@ public class Keyword {
   private Long id;
   private String name;
   @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "keyword_id")
+  @JoinColumn(name = "account_id")
   private Account account;
+
+  public static Keyword createKeyword(String name) {
+    Keyword keyword = new Keyword();
+    keyword.name = name;
+    return keyword;
+  }
 }
